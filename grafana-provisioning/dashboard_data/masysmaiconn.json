@@ -266,7 +266,7 @@
           "measurement": "ping",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT max(\"maximum_response_ms\") FROM \"ping\" WHERE url = 'www.microsoft.com' AND $timeFilter GROUP BY time($__interval) fill(null) ",
+          "query": "SELECT max(\"maximum_response_ms\") FROM \"ping\" WHERE url = '8.8.4.4' AND $timeFilter GROUP BY time($__interval) fill(null) ",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -291,7 +291,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Ping www.microsoft.com Hist",
+      "title": "Ping 8.8.4.4 Hist",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -356,7 +356,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -1198,7 +1198,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Packet losses",
+      "title": "HTTP/Web Connection Failures",
       "transformations": [],
       "type": "table"
     }
@@ -1227,5 +1227,5 @@
   "timezone": "Europe/Berlin",
   "title": "Ma_Sys.ma Internet Connection",
   "uid": "8HDp_xmMk",
-  "version": 1
+  "version": 2
 }
