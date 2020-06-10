@@ -15,7 +15,6 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "id": 2,
   "links": [],
   "panels": [
     {
@@ -178,6 +177,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:112",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -186,11 +186,12 @@
           "show": true
         },
         {
+          "$$hashKey": "object:113",
           "format": "short",
           "label": "",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         }
       ],
@@ -617,6 +618,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:226",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -625,11 +627,12 @@
           "show": true
         },
         {
+          "$$hashKey": "object:227",
           "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         }
       ],
