@@ -1,0 +1,13 @@
+apiVersion: 1
+providers:
+  - name: 'masysmadash'
+    orgId: 1
+    folder: ''
+    folderUid: ''
+    type: file
+    disableDeletion: true
+    editable: true
+    updateIntervalSeconds: 60
+    allowUiUpdates: false
+    options:
+      path: /etc/grafana/provisioning/dashboard_data
