@@ -17,11 +17,12 @@ services:
       - ./grafana-provisioning:/etc/grafana/provisioning:ro
       #- /home/linux-fan/docker-grafana:/var/lib/grafana
   influxdb:
-    image: influxdb:1.8-alpine
+    # -alpine version not available on armhf...
+    image: influxdb:1.8
     mem_limit: 300m
     restart: unless-stopped
-    ports:
-      - 127.0.0.1:8086:8086
+    #ports:
+    #  - 127.0.0.1:8086:8086
     #volumes:
       #- /home/linux-fan/docker-influxdb:/var/lib/influxdb
     environment:
