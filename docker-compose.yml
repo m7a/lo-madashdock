@@ -36,7 +36,7 @@ services:
       - INFLUXDB_WRITE_USER_PASSWORD
       - INFLUXDB_READ_USER=masysmareader
       - INFLUXDB_READ_USER_PASSWORD
-  telegraf:
+  telegraf-iconqualmon:
     mem_limit: 50m
     # -alpine version not available on armhf...
     image: telegraf:1.14
@@ -44,8 +44,4 @@ services:
     environment:
       - MASYSMAWRITER_PASSWORD
     volumes:
-      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
-  #speedtest:
-  #  image: barrycarey/speedtest-for-influxdb-and-grafana
-  #  volumes:
-  #    - ./speedtest_config.ini:/src/config.ini:ro
+      - ./iconqualmon/telegraf.conf:/etc/telegraf/telegraf.conf:ro
