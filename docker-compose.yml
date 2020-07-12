@@ -45,3 +45,10 @@ services:
       - MASYSMAWRITER_PASSWORD
     volumes:
       - ./iconqualmon/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+  tlsproxy:
+    image: squareup/ghostunnel
+    command: server --listen 0.0.0.0:5086 --unsafe-target --target influxdb:8086 --keystore /media/keys-server/server.key --cacert /media/keys-server/ca.cer --allow-all
+    volumes:
+      - ./keys-server:/media/keys-server:ro
+    ports:
+      - 5086:5086
