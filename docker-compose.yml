@@ -21,8 +21,6 @@ services:
     image: influxdb:1.8
     mem_limit: 300m
     restart: unless-stopped
-    #ports:
-    #  - 127.0.0.1:8086:8086
     #volumes:
       #- /home/linux-fan/docker-influxdb:/var/lib/influxdb
     environment:
@@ -44,11 +42,14 @@ services:
     environment:
       - MASYSMAWRITER_PASSWORD
     volumes:
-      - ./iconqualmon/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-  tlsproxy:
-    image: squareup/ghostunnel
-    command: server --listen 0.0.0.0:5086 --unsafe-target --target influxdb:8086 --keystore /media/keys-server/server.key --cacert /media/keys-server/ca.cer --allow-all
-    volumes:
-      - ./keys-server:/media/keys-server:ro
+      - ./iconqualnmon/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+  stunnel:
+    image: arm32v7/masysmalocal/stunnel
+    restart: unless-stopped
     ports:
       - 5086:5086
+    build:
+      context: stunnel
+    volumes:
+      - ./stunnel.conf:/etc/stunnel/stunnel.conf:ro
+      - ./keys-server:/media/keys-server:ro

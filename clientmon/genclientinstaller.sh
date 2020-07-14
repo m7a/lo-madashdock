@@ -23,6 +23,10 @@ MASYSMAWRITER_PASSWORD=$MASYSMAWRITER_PASSWORD
 cat > /etc/telegraf/telegraf.conf <<EOF
 $(cat telegraf.conf)
 EOF
+cat > /etc/systemd/system/telegraf.service.d/override.conf <<EOF
+[Service]
+User=root
+EOF
 cat > /etc/telegraf/keys/ca.cer <<EOF
 $(cat "$keydir"/ca.cer)
 EOF
