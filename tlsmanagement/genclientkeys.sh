@@ -2,7 +2,7 @@
 
 clnt="clnt_$(date +%s)_$$"
 mkdir "keys/$clnt"
-strength=16384
+strength=8192
 openssl genrsa -out "keys/$clnt/client.key" "$strength"
 openssl req -new -key "keys/$clnt/client.key" -out "keys/$clnt/client.req"
 openssl x509 -req -in "keys/$clnt/client.req" -CA keys/ca.cer \

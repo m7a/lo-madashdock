@@ -1,6 +1,6 @@
 #!/bin/sh -e
 # https://www.makethenmakeinstall.com/2014/05/ssl-client-authentication-step-by-step/
-strength=16384
+strength=8192
 openssl req -nodes -newkey rsa:$strength -keyform PEM -keyout keys/ca.key -x509 -outform PEM -out keys/ca.cer
 openssl genrsa -out keys/server.key $strength
 openssl req -new -key keys/server.key -out keys/server.req -sha256

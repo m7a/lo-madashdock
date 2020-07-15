@@ -1,2 +1,2 @@
 #!/bin/sh -e
-cat */client.cer > allclientkeys.cer
+cat */client.cer > allclients.cer
