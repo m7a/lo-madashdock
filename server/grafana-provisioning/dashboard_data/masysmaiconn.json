@@ -248,7 +248,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "microsoft",
+          "alias": "8.8.4.4",
           "groupBy": [
             {
               "params": [
@@ -1203,7 +1203,7 @@
       "type": "table"
     }
   ],
-  "refresh": "30s",
+  "refresh": "5m",
   "schemaVersion": 25,
   "style": "dark",
   "tags": [
@@ -1213,7 +1213,7 @@
     "list": []
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {
@@ -1227,5 +1227,5 @@
   "timezone": "Europe/Berlin",
   "title": "Ma_Sys.ma Internet Connection",
   "uid": "8HDp_xmMk",
-  "version": 2
+  "version": 6
 }

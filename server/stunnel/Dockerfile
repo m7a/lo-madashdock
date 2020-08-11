@@ -1,4 +1,3 @@
-# docker build -t arm32
 # docker build -t arm32v7/masysmalocal/stunnel --build-arg=MDVL_CI_ARCH_PREFIX=arm32v7/ --build-arg=MA_DEBIAN_MIRROR=http://192.168.1.16/debian .
 ARG	MDVL_CI_ARCH_PREFIX=
 ARG	MDVL_CI_DEBIAN_VERSION=buster
@@ -22,7 +21,7 @@ ARG	MDVL_CI_DEBIAN_VERSION=buster
 FROM	${MDVL_CI_ARCH_PREFIX}debian:$MDVL_CI_DEBIAN_VERSION
 ARG	MDVL_CI_DEBIAN_VERSION=buster
 LABEL	maintainer "Linux-Fan, Ma_Sys.ma <Ma_Sys.ma@web.de>"
-LABEL	ame masysmalocal/stunnel
+LABEL	name masysmalocal/stunnel
 ARG	MA_DEBIAN_MIRROR=http://ftp.de.debian.org/debian
 SHELL	["/bin/sh", "-ec"]
 COPY	--from=qemustatic /usr/bin/qemu-arm-static /usr/bin/qemu-arm-static
