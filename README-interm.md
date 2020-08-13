@@ -217,6 +217,14 @@ the optional `telegraf-iconqualmon` service) with:
 
 	# docker-compose up
 
+By default, all data will be stored within the respective containers. While this
+allows easy testing and cleanup, it also effectively disables persistence. Once
+you intend to run the containers more permanently, edit `docker-compose.yml` and
+enable the commented-out mappings from the `volumes` sections. Change the
+host-side according to your local configuration and then re-create all
+containers and this time run them with `docker-compse up -d` to run them in
+background.
+
 Client Installation
 ===================
 
@@ -224,7 +232,47 @@ If you are running the _Internet Connectivity_ dashboard, the server
 installation may be enough. If you want to monitor individual systems, of
 course, they need to run a local Telegraf instance to gather system metrics.
 
-_TODO CSTAT CONTINUE DOCUMENTATION HERE_
+Script `scripts-clientmon/genclieninstaller.sh` is prepared to generate
+installation scripts to be used to install the client on Debian systems. The
+idea is to package all necessary key material, configuration and setup scripts
+into a single “installer script” such that adding new clients is reasonably
+easy.
+
+Before using it, create a file `.env` next to `genclientinstaller.sh` with the
+following conents:
+
+~~~
+keydir=".../clients/$1"
+cacert=".../ca.cer"
+MASYSMA_INFLUXDB=...
+~~~
+
+The dots need to be set according to your local file structure and network:
+
+`keydir`
+:   Set this to a directory where the key material for the current client can
+    be found.
+`cacert`
+:   Set this to the `ca.cer` file's location
+`MASYSMA_INFLUXDB`
+:   Set this to the server's hostname where the Influxdb is running.
+
+After this configuration, invoke
+
+~~~
+$ ./genclientinstaller.sh <client> > install-on-<client>.sh
+~~~
+
+to generate a setup script. This will include the key material and configuration
+data to use on that client. Be sure to tweak the generated `telegraf.conf`
+before running `install-on-<client>.sh` on the target machine as root.
+
+Note: By its original package, Telegraf runs as a separate user. Given that it
+might be interesting to also monitor Docker, however, it becomes necessary to
+effectively give root permissions to Telegraf (either by adding it to the
+`docker` group or by running it as root). If you do not want to monitor Docker
+(or SMART or other things that require root), consider changing
+`genclientinstaller.sh` accordingly.
 
 Dashboards
 ==========
