@@ -1,15 +1,12 @@
 #!/bin/sh -e
 
-keydir="/data/main/mdb/prod/keys/machines/sysmon/clients/$1"
-cacert="/data/main/mdb/prod/keys/machines/sysmon/keys/ca.cer"
-MASYSMA_INFLUXDB=192.168.1.15
-
 if [ $# = 0 ] || [ "$1" = "--help" ]; then
 	echo "USAGE $0 <client> > install-on-client.sh"
 	exit 1
 fi
 
-. "$(dirname "$0")/../.env"
+. "$(dirname "$0")/.env"
+. "$(dirname "$0")/../server/.env"
 
 cat <<ENDOFSCRIPT
 #!/bin/sh -e
