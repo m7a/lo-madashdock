@@ -362,14 +362,16 @@ Third row: _content match_
     matching to work, you need to configure the `response_string_match` and
     `urls` in Telegraf:
 
-	# server/iconqualnmon/telegraf.conf excerpt
-	[[inputs.http_response]]
-	  interval = "120s"
-	  urls = ["https://masysma.lima-city.de/31/web_main.xhtml"] # CONFIGURE HERE
-	  response_timeout = "4s"
-	  method = "GET"
-	  response_string_match = "<h1>Ma_Sys.ma Startseite"        # CONFIGURE HERE
-	  follow_redirects = false
+~~~
+# server/iconqualnmon/telegraf.conf excerpt
+[[inputs.http_response]]
+  interval = "120s"
+  urls = ["https://masysma.lima-city.de/31/web_main.xhtml"] # CONFIGURE HERE
+  response_timeout = "4s"
+  method = "GET"
+  response_string_match = "<h1>Ma_Sys.ma Startseite"        # CONFIGURE HERE
+  follow_redirects = false
+~~~
 
 The panel's queries also need to be configured to use the correct URL:
 
