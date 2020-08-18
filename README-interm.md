@@ -279,9 +279,213 @@ Dashboards
 
 ## Internet Connectivity
 
+This dashboard is intended to show a continuous measure of connection quality
+be displaying the timings of regular ping packets and TCP connections.
+
+Note: In case you configured different hostnames in Telegraf, you may need to
+edit the panels to use your host names as filters rather than the ones provided
+in the sample configuration.
+
+![Internet Connectivity Dashboard](dashboards_with_docker_att/iconqual.png)
+
+The screen is divided into nine parts with three entries per row.
+
+In the first row, all times are given in milliseconds.
+
+First row: _Ping_
+:   Probably the most important panel. This is displaying the timings of
+    ping requests. Faolied pings are indicated by a spike in the bold red line
+    `resultcode`.
+
+This panel's queries are largely independent of the configuration:
+
+~~~{.sql}
+SELECT max("maximum_response_ms") FROM "ping" WHERE $timeFilter
+				GROUP BY time($__interval), "url" fill(null)`
+SELECT MAX("result_code") FROM "ping" WHERE $timeFilter
+				GROUP BY time($__interval) fill(null)
+~~~
+
+First row: _Ping Hist_
+:   A histogram of ping results. Here, one can see that most pings
+    finish in just under 16 ms and only a small fraction requires more than
+    18 ms.
+
+The qureies' WHERE clauses need to be edited to match the Telegraf
+configuration:
+
+~~~{.sql}
+-- For ping 8.8.4.4
+SELECT max("maximum_response_ms") FROM "ping" WHERE url = '8.8.4.4'
+			AND $timeFilter GROUP BY time($__interval) fill(null) 
+-- For ping masysma.lima-city.de
+SELECT max("maximum_response_ms") FROM "ping" WHERE url = 'masysma.lima-city.de'
+			AND $timeFilter GROUP BY time($__interval) fill(null) 
+~~~
+
+In the second row, all times are given in seconds.
+
+Second row: _HTTP Response Time_
+:   Similar to the _Ping_ panel, this one displays the duration of the download
+    of a small webpage through HTTPS. Again, a bold red line `response` may
+    spike to show failed connections.
+
+The queries for this panel are generic again:
+
+~~~{.sql}
+SELECT max("result_code") FROM "http_response" WHERE $timeFilter
+				GROUP BY time($__interval) fill(null)
+SELECT max("response_time") FROM "http_response" WHERE $timeFilter
+				GROUP BY time($__interval), "server" fill(null)
+~~~
+
+Second Row: _Response Time_ Historgram
+:   Presents a histogram display of the measured HTTP response times.
+
+~~~{.sql}
+-- Response time masysma.lima-city.de
+SELECT max("response_time") FROM "http_response"
+	WHERE ("server" = 'https://masysma.lima-city.de/31/web_main.xhtml')
+		AND $timeFilter GROUP BY time($__interval) fill(null)
+-- Response Time www.telekom.de
+SELECT max("response_time") FROM "http_response"
+	WHERE ("server" = 'https://www.telekom.de/start')
+		AND $timeFilter GROUP BY time($__interval) fill(null)
+~~~
+
+The third row is dedicated to displaying numbers of failures.
+
+Third row: _content match_
+:   This special panel shows the number of times the content retrieved through
+    HTTPS matched the expectations. One can see that in the screeshot, all
+    360 connections were successfully returning the expected content. For this
+    matching to work, you need to configure the `response_string_match` and
+    `urls` in Telegraf:
+
+	# server/iconqualnmon/telegraf.conf excerpt
+	[[inputs.http_response]]
+	  interval = "120s"
+	  urls = ["https://masysma.lima-city.de/31/web_main.xhtml"] # CONFIGURE HERE
+	  response_timeout = "4s"
+	  method = "GET"
+	  response_string_match = "<h1>Ma_Sys.ma Startseite"        # CONFIGURE HERE
+	  follow_redirects = false
+
+The panel's queries also need to be configured to use the correct URL:
+
+~~~{.sql}
+-- match (generic)
+SELECT COUNT("result_code") FROM "http_response"
+	WHERE "response_string_match" = 1 AND $timeFilter
+-- mismatch (configuration required)
+SELECT COUNT("result_code") FROM "http_response"
+	WHERE ("result_code" <> 0 OR "response_string_match"  = 0)
+		AND "server" = 'https://masysma.lima-city.de/31/web_main.xhtml'
+		AND $timeFilter
+~~~
+
+Third row: Tables
+:   The remaining two panels show exact counters for failed pings and failed
+    HTTP connections respectively. The tables are generic and need not be
+    configured.
+
+~~~{.sql}
+-- Table: Packet losses
+SELECT COUNT("result_code") FROM "ping" WHERE ("percent_packet_loss" > 0 OR
+		"result_code" = 1) AND $timeFilter GROUP BY "url" fill(none)
+-- Table: HTTP/Web Connection Failures
+SELECT COUNT("result_code") FROM "http_response"
+		WHERE (http_response_code <> 200 OR response_string_match = 0 OR
+			result_code <> 0) AND $timeFilter GROUP BY "server";
+~~~
+
 ## Few Systems Overview
 
+This dashboard is intended to show the system health and load for about three
+systems (depending on screen space). It works for Linux systems and degrades
+gracefully if some non-essential metrics are missing.
+
+![Few Systems Overview with just a single system](dashboards_with_docker_att/fewsysover.png)
+
+The first six fields for each system are as follows:
+
+ 1. Uptime Indicator:
+    The first item displayed is the system's uptime.
+    This metric is important to see if a server that should be always online
+    has been restarted recently.
+ 2. Total RAM Indicator
+ 3. Total SWAP Indicator
+ 4. Load Average Indicator
+ 5. RAM used indicator
+ 6. SWAP used indicator
+
+The following fields are present under special cirumstances:
+
+apcupsd panel
+:   If connected to an UPS supported by `apcupsd` (and enabled in Telegraf),
+    two metrics are displayed: `.remain` displays the time the UPS may stay
+    on battery as of now and `onbat` displays `GRID` while the system is
+    attached to external power and the time the UPS has been running on battery
+    if not. If `apcupsd` data is not available, the whole field will display
+    `NO UPS`.
+
+Docker Containers panel
+:   Displays the number of running Docker conatiners (if reported by Telegraf).
+
+Note: It would be interesting to display the status of RAID arrays, too, but
+Telegraf does not provide this as a metric.
+_TODO z: It should be possible to do this by parsing `/proc/mdstat`, though._
+
+After these special panels follow some larger tabular-style panels:
+
+ * CPU load panel with individual CPU loads
+ * File system use table
+ * Network Interface rx/tx and error data.
+   _TODO z: It would be interesting to show IP addresses here, but Telegraf
+   does not seem to collect them._
+
+The last panel is a diagram which displays all the important system metrics in
+a single chart:
+
+ * CPU load (averaged across all cores; 100% means all cores are 100% loaded)
+ * RAM usage
+ * SWAP usage
+ * GPU usage (as reported by `nvidia-smi`, if the metric is collected)
+ * Disk usage: `DISKFULL` reports the percentage used for the “fullest” file
+   system. The idea is that if you run out of disk space (on any disk), this
+   line will approach 100%.
+
 ## HDD S.M.A.R.T Values
+
+This advanced dashboard is intended to provide an overview of the S.M.A.R.T
+data across the HDDs and SSDs installed across multiple systems. It is highly
+experimental and hints for making it more useful are welcome!
+
+![S.M.A.R.T Dashboard](dashboards_with_docker_att/smart.png)
+
+For each HDD, two panels are displayed:
+
+Table: All Attributes
+:   This table is intended to show the S.M.A.R.T values in numeric form.
+    By using different colors, it tries to distinguish common values like 0
+    or 100 from less common ones. It will at most display one value per day
+    as S.M.A.R.T data is not expected to change too rapidly.
+
+Note: The table in their current form could see some improvements wrt. the
+units of data displayed and wrt. displaying only the relevant one of
+`normalized` and `raw_value`. The problem here is that the interpretation of
+attributes is manfacturer and thus essentially drive-specific and Grafana does
+not seem to provide a convenient means to attach the device-specific information
+to the table (short of hand-crafting the table for each and every invidiual
+drive).
+
+Diagram: Attribute changes
+:   Displays the differences in attributes across time.
+    As of now, the diagram is not overly useful as it displays values that
+    change with +1 or +2 alongside values which change +32M or +38K... Here, one
+    may better consult the table displayed alongside the diagram and maybe
+    consult the diagram only for the individual values
+    (by clicking on one of the attributes)
 
 Additional Security Considerations
 ==================================

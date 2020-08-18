@@ -97,8 +97,8 @@
           "measurement": "ping",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT max(\"maximum_response_ms\") FROM \"ping\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
-          "rawQuery": false,
+          "query": "SELECT max(\"maximum_response_ms\") FROM \"ping\" WHERE $timeFilter GROUP BY time($__interval), \"url\" fill(null)",
+          "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -248,7 +248,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "8.8.4.4",
+          "alias": "",
           "groupBy": [
             {
               "params": [
@@ -376,7 +376,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "masysma.lima-city.de",
+          "alias": "",
           "groupBy": [
             {
               "params": [
@@ -534,6 +534,8 @@
           "measurement": "http_response",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT max(\"response_time\") FROM \"http_response\" WHERE $timeFilter GROUP BY time($__interval), \"server\" fill(null)",
+          "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -705,6 +707,8 @@
           "measurement": "http_response",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT max(\"response_time\") FROM \"http_response\" WHERE (\"server\" = 'https://masysma.lima-city.de/31/web_main.xhtml') AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -835,6 +839,8 @@
           "measurement": "http_response",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "SELECT max(\"response_time\") FROM \"http_response\" WHERE (\"server\" = 'https://www.telekom.de/start') AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1213,7 +1219,7 @@
     "list": []
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
