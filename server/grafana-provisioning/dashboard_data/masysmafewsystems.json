@@ -15,8 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 2,
-  "iteration": 1595884117304,
+  "iteration": 1597788008561,
   "links": [],
   "panels": [
     {
@@ -34,7 +33,7 @@
       "type": "row"
     },
     {
-      "content": "<center>Uptime<br/>\nLoad AVG</center>",
+      "content": "<center>Uptime<br/>\nLoad AVG<br/>\nUPS</center>",
       "datasource": "$datasource",
       "description": "",
       "fieldConfig": {
@@ -58,7 +57,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 2,
         "x": 0,
         "y": 1
@@ -109,7 +108,7 @@
       "type": "text"
     },
     {
-      "content": "<center>Memory Total<br/>\nMemory Used</center>",
+      "content": "<center>Memory Total<br/>\nMemory Used<br/>\nContainers Running</center>",
       "datasource": "$datasource",
       "description": "",
       "fieldConfig": {
@@ -133,7 +132,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 2,
         "x": 2,
         "y": 1
@@ -208,7 +207,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 2,
         "x": 4,
         "y": 1
@@ -265,7 +264,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 3
+        "y": 4
       },
       "id": 2,
       "panels": [],
@@ -313,7 +312,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 4
+        "y": 5
       },
       "id": 4,
       "options": {
@@ -398,7 +397,7 @@
         "h": 2,
         "w": 2,
         "x": 2,
-        "y": 4
+        "y": 5
       },
       "id": 13,
       "options": {
@@ -483,7 +482,7 @@
         "h": 2,
         "w": 2,
         "x": 4,
-        "y": 4
+        "y": 5
       },
       "id": 14,
       "options": {
@@ -573,10 +572,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 6,
         "w": 3,
         "x": 6,
-        "y": 4
+        "y": 5
       },
       "id": 28,
       "mappingType": 1,
@@ -820,10 +819,10 @@
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 6,
         "w": 4,
         "x": 9,
-        "y": 4
+        "y": 5
       },
       "id": 24,
       "options": {
@@ -1048,10 +1047,10 @@
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 6,
         "w": 3,
         "x": 13,
-        "y": 4
+        "y": 5
       },
       "id": 26,
       "options": {
@@ -1186,10 +1185,10 @@
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
-        "h": 7,
+        "h": 6,
         "w": 8,
         "x": 16,
-        "y": 4
+        "y": 5
       },
       "hiddenSeries": false,
       "id": 11,
@@ -1544,7 +1543,7 @@
         "h": 2,
         "w": 2,
         "x": 0,
-        "y": 6
+        "y": 7
       },
       "id": 6,
       "options": {
@@ -1638,7 +1637,7 @@
         "h": 2,
         "w": 2,
         "x": 2,
-        "y": 6
+        "y": 7
       },
       "id": 15,
       "options": {
@@ -1763,7 +1762,7 @@
         "h": 2,
         "w": 2,
         "x": 4,
-        "y": 6
+        "y": 7
       },
       "id": 19,
       "options": {
@@ -1855,12 +1854,272 @@
       "timeShift": null,
       "title": "",
       "type": "stat"
+    },
+    {
+      "datasource": "$datasource",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "decimals": 0,
+          "mappings": [],
+          "noValue": "NO UPS",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-red",
+                "value": null
+              },
+              {
+                "color": "semi-dark-yellow",
+                "value": 180000000000
+              },
+              {
+                "color": "semi-dark-green",
+                "value": 360000000000
+              }
+            ]
+          },
+          "unit": "ns"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "apcupsd.on_battery"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "semi-dark-green",
+                      "value": null
+                    },
+                    {
+                      "color": "semi-dark-yellow",
+                      "value": 30000000000
+                    },
+                    {
+                      "color": "semi-dark-red",
+                      "value": 120000000000
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "from": "0",
+                    "id": 0,
+                    "operator": "",
+                    "text": "GRID",
+                    "to": "1000000000",
+                    "type": 2,
+                    "value": ""
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "apcupsd.time_left"
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 2,
+        "x": 0,
+        "y": 9
+      },
+      "id": 30,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        }
+      },
+      "pluginVersion": "7.0.3",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "apcupsd",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "time_left_ns"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "time_left"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "time_on_battery_ns"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [
+                  "on_battery"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 2,
+        "x": 2,
+        "y": 9
+      },
+      "id": 32,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        }
+      },
+      "pluginVersion": "7.0.3",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "docker",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "n_containers_running"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "type": "stat"
     }
   ],
   "refresh": false,
   "schemaVersion": 25,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "masysma",
+    "monitoring",
+    "system",
+    "linux"
+  ],
   "templating": {
     "list": [
       {
@@ -1953,5 +2212,5 @@
   "timezone": "",
   "title": "Ma_Sys.ma Few Systems Overview",
   "uid": "qsRMQfkgz",
-  "version": 13
+  "version": 1
 }

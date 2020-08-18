@@ -183,6 +183,9 @@ cat keys/server.cer keys/ca.cer > ../server/keys-server/server-ca.cer
 cat keys/*/client.cer > ../server/keys-server/allclients.cer
 ~~~
 
+Make sure that `keys-server` and its files are owned by user 101 (that's what
+stunnel runs under inside the Docker container).
+
 ## Password Configuration
 
 Passwords can be configured either through environment variables or directly in
@@ -220,7 +223,8 @@ the optional `telegraf-iconqualmon` service) with:
 By default, all data will be stored within the respective containers. While this
 allows easy testing and cleanup, it also effectively disables persistence. Once
 you intend to run the containers more permanently, edit `docker-compose.yml` and
-enable the commented-out mappings from the `volumes` sections. Change the
+enable the commented-out mappings from the `volumes` sections (grafana directory
+needs to belong to user 472). Change the
 host-side according to your local configuration and then re-create all
 containers and this time run them with `docker-compse up -d` to run them in
 background.
