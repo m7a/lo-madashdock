@@ -131,7 +131,7 @@ keys and certificates using the following openssl commands:
 # set RSA strength in bits
 strength=8192
 # generate CA certificate
-openssl req -nodes -newkey rsa:$strength -keyform PEM -keyout keys/ca.key -x509 -outform PEM -out keys/ca.cer
+openssl req -days 36500 -nodes -newkey rsa:$strength -keyform PEM -keyout keys/ca.key -x509 -outform PEM -out keys/ca.cer
 # generate server key
 openssl genrsa -out keys/server.key $strength
 # generate server certificate signing request
