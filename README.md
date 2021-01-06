@@ -299,7 +299,7 @@ In the first row, all times are given in milliseconds.
 
 First row: _Ping_
 :   Probably the most important panel. This is displaying the timings of
-    ping requests. Faolied pings are indicated by a spike in the bold red line
+    ping requests. Failed pings are indicated by a spike in the bold red line
     `resultcode`.
 
 This panel's queries are largely independent of the configuration:
