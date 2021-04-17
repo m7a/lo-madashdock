@@ -20,7 +20,7 @@ services:
   influxdb:
     # -alpine version not available on armhf...
     image: influxdb:1.8
-    mem_limit: 300m
+    mem_limit: 6g
     restart: unless-stopped
     #volumes:
       #- /home/linux-fan/docker-influxdb:/var/lib/influxdb
@@ -35,6 +35,10 @@ services:
       - INFLUXDB_WRITE_USER_PASSWORD
       - INFLUXDB_READ_USER=masysmareader
       - INFLUXDB_READ_USER_PASSWORD
+      - INFLUXDB_REPORTING_DISABLED=true
+      # performance tuning
+      - INFLUXDB_DATA_INDEX_VERSION=tsi1
+      - INFLUXDB_DATA_WAL_FSYNC_DELAY=30s
   telegraf-iconqualmon:
     mem_limit: 50m
     # -alpine version not available on armhf...
