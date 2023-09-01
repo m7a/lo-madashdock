@@ -8,7 +8,7 @@ author: ["Linux-Fan, Ma_Sys.ma (Ma_Sys.ma@web.de)"]
 keywords: ["docker", "grafana", "telegraf", "influxdb", "telegraf", "monitoring", "dashboard", "linux", "internet", "performance"]
 x-masysma-version: 1.0.0
 x-masysma-repository: https://www.github.com/m7a/lo-madashdock
-x-masysma-website: https://masysma.lima-city.de/37/dashboards_with_docker.xhtml
+x-masysma-website: https://masysma.net/37/dashboards_with_docker.xhtml
 x-masysma-owned: 1
 x-masysma-copyright: |
   Copyright (c) 2020 Ma_Sys.ma.
